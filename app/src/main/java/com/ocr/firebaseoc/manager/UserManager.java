@@ -1,5 +1,8 @@
 package com.ocr.firebaseoc.manager;
 
+import android.content.Context;
+
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ocr.firebaseoc.repository.UserRepository;
@@ -36,4 +39,13 @@ public class UserManager {
     public Boolean isCurrentUserLogged(){
         return (userRepository.getCurrentUser() != null);
     }
+
+    public Task<Void> signOut(Context context){
+        return userRepository.signOut(context);
+    }
+
+    public Task<Void> deleteUser(Context context){
+        return userRepository.deleteUser(context);
+    }
+
 }
