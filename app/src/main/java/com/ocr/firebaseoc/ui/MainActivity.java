@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         if (requestCode == RC_SIGN_IN) {
             // SUCCESS
             if (resultCode == RESULT_OK) {
-                //userManager.createUser();
+                userManager.createUser(); // Save our User in our DB Firestore after he's correctly logged in with AuthUI
                 showSnackBar(getString(R.string.connection_succeed));
             } else {
                 // ERRORS

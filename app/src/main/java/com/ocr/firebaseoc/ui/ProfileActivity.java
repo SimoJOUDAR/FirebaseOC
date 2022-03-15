@@ -3,6 +3,7 @@ package com.ocr.firebaseoc.ui;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -32,12 +33,28 @@ public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
     }
 
     private void setupListeners(){
+
+        // Mentor checkbox
+        binding.isMentorCheckBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+            userManager.updateIsMentor(checked);
+        });
+
+        // Update button
+        binding.updateButton.setOnClickListener(view -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            userManager.updateUsername(binding.usernameEditText.getText().toString())
+                    .addOnSuccessListener(aVoid -> {
+                        binding.progressBar.setVisibility(View.INVISIBLE);
+                    });
+        });
+
         // Sign out button
         binding.signOutButton.setOnClickListener(view -> {
             userManager.signOut(this).addOnSuccessListener(aVoid -> {
                 finish();
             });
         });
+
 
         // Delete button
         binding.deleteButton.setOnClickListener(view -> {
@@ -65,6 +82,7 @@ public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
                 setProfilePicture(user.getPhotoUrl());
             }
             setTextUserData(user);
+            getUserData();
         }
     }
 
@@ -84,6 +102,16 @@ public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
         //Update views with data
         binding.usernameEditText.setText(username);
         binding.emailTextView.setText(email);
+    }
+
+    // Fetch data from Firestore for UI updates
+    private void getUserData(){
+        userManager.getUserData().addOnSuccessListener(user -> {
+            // Set the data with the user information
+            String username = TextUtils.isEmpty(user.getUsername()) ? getString(R.string.info_no_username_found) : user.getUsername();
+            binding.isMentorCheckBox.setChecked(user.getIsMentor());
+            binding.usernameEditText.setText(username);
+        });
     }
 
 }

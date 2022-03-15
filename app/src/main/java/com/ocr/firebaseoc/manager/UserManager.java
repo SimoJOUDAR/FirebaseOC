@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ocr.firebaseoc.model.User;
 import com.ocr.firebaseoc.repository.UserRepository;
 
 public class UserManager {
@@ -44,8 +45,40 @@ public class UserManager {
         return userRepository.signOut(context);
     }
 
+    /*****************************************
+     *  CRUD (Create, Read, Update, Delete  *
+     ***************************************/
+
+    // Create
+    public void createUser(){
+        userRepository.createUser();
+    }
+
+    // Read
+    public Task<User> getUserData(){
+        // Gets the user from Firestore as <DocumentSnapshot> and casts it into a User model Object
+        return userRepository.getUserData().continueWith(task -> task.getResult().toObject(User.class)) ;
+        // "continueWith" to proceed with the previous results into more transformation
+        // toObject() serializes the object received and then deserializes it into the class model argument
+    }
+
+    // Update
+    public Task<Void> updateUsername(String username){
+        return userRepository.updateUsername(username);
+    }
+
+    // Update
+    public void updateIsMentor(Boolean isMentor){
+        userRepository.updateIsMentor(isMentor);
+    }
+
+    // Delete
     public Task<Void> deleteUser(Context context){
-        return userRepository.deleteUser(context);
+        // Deletes the user account from AuthUI
+        return userRepository.deleteUser(context).addOnCompleteListener(task -> {
+            // Once done, deletes the user data from Firestore
+            userRepository.deleteUserFromFirestore();
+        });
     }
 
 }
