@@ -7,13 +7,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
+import com.ocr.firebaseoc.databinding.ActivityMentorChatBinding;
+
 /**
  * Base Activity class that allow to manage all the common code for the activities
  * @param <T> Should be the type of the viewBinding of your activity see more <a href="https://developer.android.com/topic/libraries/view-binding"> here </a>
  */
-abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
+public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     abstract T getViewBinding();
+    //abstract ActivityMentorChatBinding getViewBinding();
     protected T binding;
 
     @Override

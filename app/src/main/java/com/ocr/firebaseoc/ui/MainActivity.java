@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.ocr.firebaseoc.R;
 import com.ocr.firebaseoc.databinding.ActivityMainBinding;
 import com.ocr.firebaseoc.manager.UserManager;
+import com.ocr.firebaseoc.ui.chat.MentorChatActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,6 +52,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 startProfileActivity();
             }else{
                 startSignInActivity();
+            }
+        });
+
+        // Chat Button : Starts ChatActivity if connected or display message if not connected
+        binding.chatButton.setOnClickListener(view -> {
+            if(userManager.isCurrentUserLogged()){
+                startMentorChatActivity();
+            }else{
+                showSnackBar(getString(R.string.error_not_connected));
             }
         });
     }
@@ -117,6 +127,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 }
             }
         }
+    }
+
+
+    // Launch Mentor Chat Activity
+    private void startMentorChatActivity(){
+        Intent intent = new Intent(this, MentorChatActivity.class);
+        startActivity(intent);
     }
 
 
