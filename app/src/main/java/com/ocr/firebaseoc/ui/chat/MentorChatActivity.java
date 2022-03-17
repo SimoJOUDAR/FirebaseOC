@@ -74,6 +74,10 @@ public class MentorChatActivity extends BaseActivity<ActivityMentorChatBinding> 
         binding.addFileButton.setOnClickListener(view -> { addFile(); });
     }
 
+    /*************************
+     * Display Conversation *
+     ***********************/
+
     // Configure RecyclerView
     private void configureRecyclerView(String chatName){
         //Track current chat name
@@ -107,29 +111,35 @@ public class MentorChatActivity extends BaseActivity<ActivityMentorChatBinding> 
         binding.emptyRecyclerView.setVisibility(this.mentorChatAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
+    /***********************
+     * Send a new Message *
+     *********************/
+
     // For "Send" button
     private void sendMessage(){
         // Check if user can send a message (Text not null + user logged)
         boolean canSendMessage = !TextUtils.isEmpty(binding.chatEditText.getText()) && userManager.isCurrentUserLogged();
 
         if (canSendMessage){
-            // Create a new message for the chat
-            chatManager.createMessageForChat(binding.chatEditText.getText().toString(), this.currentChatName);
+            String messageText = binding.chatEditText.getText().toString();
+            // Check if there is an image to add with the message
+            if(binding.imagePreview.getDrawable() == null){
+                // Create a new message for the chat
+                chatManager.createMessageForChat(messageText, this.currentChatName);
+            }else {
+                // Create a new message with an image for the chat
+                chatManager.sendMessageWithImageForChat(messageText, this.uriImageSelected, this.currentChatName);
+                binding.imagePreview.setImageDrawable(null);
+            }
             // Reset text field
             binding.chatEditText.setText("");
+
         }
     }
 
     /*******************
-     * Add file button *
+     * Send a picture *
      *****************/
-
-    // Called after the user has made a choice (allow / don't allow)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 
     // Makes system ask for permission => User makes a choice => onRequestPermissionsResult() calls EasyPermissions => EasyPermissions calls addFile()
     @AfterPermissionGranted(RC_IMAGE_PERMS)
@@ -144,6 +154,13 @@ public class MentorChatActivity extends BaseActivity<ActivityMentorChatBinding> 
         startActivityForResult(i, RC_CHOOSE_PHOTO);
     }
 
+    // Called after the user has made a choice (allow / don't allow)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -154,6 +171,7 @@ public class MentorChatActivity extends BaseActivity<ActivityMentorChatBinding> 
     private void handleResponse(int requestCode, int resultCode, Intent data){
         if (requestCode == RC_CHOOSE_PHOTO) {
             if (resultCode == RESULT_OK) { //SUCCESS
+                // Handles the file the user would’ve chosen
                 this.uriImageSelected = data.getData();
                 Glide.with(this) //SHOWING PREVIEW OF IMAGE
                         .load(this.uriImageSelected)

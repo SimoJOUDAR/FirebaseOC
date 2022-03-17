@@ -1,10 +1,17 @@
 package com.ocr.firebaseoc.repository;
 
+import android.net.Uri;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ocr.firebaseoc.manager.UserManager;
 import com.ocr.firebaseoc.model.Message;
+
+import java.util.UUID;
 
 public final class ChatRepository {
 
@@ -29,6 +36,10 @@ public final class ChatRepository {
         }
     }
 
+    /*************************
+     * Display Conversation *
+     ***********************/
+
     public CollectionReference getChatCollection(){
         return FirebaseFirestore.getInstance().collection(CHAT_COLLECTION);
     }
@@ -44,6 +55,10 @@ public final class ChatRepository {
                 .limit(50);   // To fetch no more than 50 message objects
     }
 
+    /***********************
+     * Send a new Message *
+     *********************/
+
     // Creates the message object and adds it to DB Firestore
     public void createMessageForChat(String textMessage, String chat){
 
@@ -58,6 +73,30 @@ public final class ChatRepository {
                     .add(message);
         });
 
+    }
+
+
+
+    // Upload image to Firebase Storage and return its URL
+    public UploadTask uploadImage(Uri imageUri, String chat){
+        String uuid = UUID.randomUUID().toString(); // Generates UUID : Universally Unique Identifier
+        StorageReference mImageRef = FirebaseStorage.getInstance().getReference(chat + "/" + uuid); // Generates a FirebaseStorage URL to host the picture
+        return mImageRef.putFile(imageUri);  // return an UploadTask that uploads the picture to the URL
+    }
+
+
+    // Creates a Message carrying the picture's URL and adds it to FirebaseStorage
+    public void createMessageWithImageForChat(String urlImage, String textMessage, String chat){
+        userManager.getUserData().addOnSuccessListener(user -> {
+            // Creating Message with the URL image
+            Message message = new Message(textMessage, urlImage, user);
+
+            // Storing Message on Firestore
+            this.getChatCollection()
+                    .document(chat)
+                    .collection(MESSAGE_COLLECTION)
+                    .add(message);
+        });
     }
 
 }
