@@ -49,15 +49,15 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    implementation platform('com.google.firebase:firebase-bom:29.2.0')
     implementation 'com.google.firebase:firebase-analytics'
-
-    // Firebase-UI
-    implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
+    // Firebase-UI Auth
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+    // Database : Firestore
+    implementation 'com.google.firebase:firebase-firestore'
+    //Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
 
     // Facebook Login
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
-
-    // Database : Firestore
-    implementation 'com.google.firebase:firebase-firestore'
 }

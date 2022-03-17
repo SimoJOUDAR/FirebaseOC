@@ -20,10 +20,13 @@
             </intent-filter>
         </activity>
 
-        <!-- -->
+        <!-- Profile Activity-->
         <activity android:name=".ui.ProfileActivity"
             android:label="@string/toolbar_title_login_activity"
             android:parentActivityName=".ui.MainActivity"/>
+
+        <!-- MENTOR CHAT ACTIVITY -->
+
     </application>
 
 </manifest>

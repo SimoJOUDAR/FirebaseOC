@@ -13,7 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ocr.firebaseoc.model.User;
 
-public class UserRepository {
+public final class UserRepository {
 
     // This class implements a Singleton pattern (one instance only)
 
