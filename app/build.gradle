@@ -60,4 +60,7 @@ dependencies {
 
     // Facebook Login
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
+    //EASY PERMISSIONS
+    implementation 'pub.devrel:easypermissions:3.0.0'
 }
