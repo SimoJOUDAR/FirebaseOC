@@ -31,7 +31,7 @@ public class MentorChatActivity extends BaseActivity<ActivityMentorChatBinding> 
 
 
     @Override
-    protected ActivityMentorChatBinding getViewBinding() {
+    public ActivityMentorChatBinding getViewBinding() {
         return ActivityMentorChatBinding.inflate(getLayoutInflater());
     }
 

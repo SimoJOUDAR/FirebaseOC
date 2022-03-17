@@ -21,7 +21,7 @@ public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
     private UserManager userManager = UserManager.getInstance();
 
     @Override
-    ActivityProfileBinding getViewBinding() {
+    public ActivityProfileBinding getViewBinding() {
         return ActivityProfileBinding.inflate(getLayoutInflater());
     }
 
