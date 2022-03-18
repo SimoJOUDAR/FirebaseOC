@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private static final int RC_SIGN_IN = 123;
 
     @Override
-    ActivityMainBinding getViewBinding() {
+    public ActivityMainBinding getViewBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
