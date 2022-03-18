@@ -23,13 +23,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private static final int RC_SIGN_IN = 123;
 
     @Override
-    ActivityMainBinding getViewBinding() {
+    public ActivityMainBinding getViewBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //throw new RuntimeException("Test Crash"); // Forced crash Crashlytics test
         setupListeners();
     }
 

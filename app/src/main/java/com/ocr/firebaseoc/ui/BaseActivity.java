@@ -15,8 +15,7 @@ import com.ocr.firebaseoc.databinding.ActivityMentorChatBinding;
  */
 public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
-    abstract T getViewBinding();
-    //abstract ActivityMentorChatBinding getViewBinding();
+    abstract public T getViewBinding();
     protected T binding;
 
     @Override

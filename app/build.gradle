@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
@@ -30,6 +31,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        merge "META-INF/*"
+    }
 }
 
 dependencies {
@@ -55,9 +60,23 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     // Database : Firestore
     implementation 'com.google.firebase:firebase-firestore'
-    //Firestore
+    // Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
+    // Firebase Storage for "Send image" functionality
+    implementation 'com.firebaseui:firebase-ui-storage:7.1.1'
+    // Firebase Messaging
+    implementation 'com.google.firebase:firebase-messaging'
+
+    // For PendingIntent FLAG_IMMUTABLE
+    implementation "androidx.work:work-runtime:2.7.1"
 
     // Facebook Login
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
+    //EASY PERMISSIONS
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+    // Crashlytics
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }
