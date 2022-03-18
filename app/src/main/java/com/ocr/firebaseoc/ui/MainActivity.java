@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //throw new RuntimeException("Test Crash"); // Forced crash Crashlytics test
         setupListeners();
     }
 
